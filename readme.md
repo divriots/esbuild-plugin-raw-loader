@@ -1,20 +1,20 @@
-# vite-plugin-firebase [![npm](https://img.shields.io/npm/v/vite-plugin-firebase.svg)](https://www.npmjs.com/package/vite-plugin-firebase)
+# esbuild-plugin-raw-loader [![npm](https://img.shields.io/npm/v/esbuild-plugin-raw-loader.svg)](https://www.npmjs.com/package/esbuild-plugin-raw-loader)
 
 ### Installation
 
 ```
-npm install --save-dev vite-plugin-firebase
+npm install --save-dev esbuild-plugin-raw-loader
 ```
 
 ### Usage
 
-Add it to vite.config.js
+Add it to esbuild plugins
 
 ```js
-import firebasePlugin from 'vite-plugin-firebase';
+import rawLoaderPlugin from 'esbuild-plugin-raw-loader';
 
-export default {
-  plugins: [firebasePlugin()]
+const buildOptions = {
+  plugins: [rawLoaderPlugin()]
 }
 ```
 

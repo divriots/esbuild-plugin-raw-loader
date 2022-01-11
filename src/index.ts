@@ -5,7 +5,7 @@ import type { Plugin } from 'esbuild';
 export interface RawLoaderPluginOptions {
 }
 
-export default function firebasePlugin({}: RawLoaderPluginOptions): Plugin {
+module.exports = function rawLoaderPlugin({}: RawLoaderPluginOptions = {}): Plugin {
   return {
     name: "esbuild:plugin:raw-loader",
     setup(build) {
@@ -27,6 +27,7 @@ export default function firebasePlugin({}: RawLoaderPluginOptions): Plugin {
             await fs.promises.readFile(path, 'utf-8')
           )}`,
           loader: 'js',
+          watchFiles: [path]
         };
       });
     },
