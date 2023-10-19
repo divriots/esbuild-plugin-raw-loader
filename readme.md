@@ -1,9 +1,9 @@
-# esbuild-plugin-raw-loader [![npm](https://img.shields.io/npm/v/esbuild-plugin-raw-loader.svg)](https://www.npmjs.com/package/esbuild-plugin-raw-loader)
+# esbuild-plugin-rawbundle [![npm](https://img.shields.io/npm/v/esbuild-plugin-rawbundle.svg)](https://www.npmjs.com/package/esbuild-plugin-rawbundle)
 
 ### Installation
 
 ```
-npm install --save-dev esbuild-plugin-raw-loader
+npm install --save-dev esbuild-plugin-rawbundle
 ```
 
 ### Usage
@@ -11,11 +11,24 @@ npm install --save-dev esbuild-plugin-raw-loader
 Add it to esbuild plugins
 
 ```js
-import rawLoaderPlugin from 'esbuild-plugin-raw-loader';
+import rawBundlePlugin from 'esbuild-plugin-rawbundle';
+
+const esbuildOptions = {
+  format: 'esm',
+  platform: 'browser',
+}
 
 const buildOptions = {
-  plugins: [rawLoaderPlugin()]
+  plugins: [rawBundlePlugin({ esbuildOptions })]
 }
+```
+
+Then you can import ?rawbundle modules:
+
+```js
+import rawBundle from 'jquery?rawbundle';
+
+// rawBundle default export esm bundled jquery output
 ```
 
 ### License

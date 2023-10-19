@@ -1,10 +1,10 @@
 {
-  "name": "esbuild-plugin-raw-loader",
-  "version": "0.1.4",
+  "name": "esbuild-plugin-rawbundle",
+  "version": "0.1.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
-  "author": "gluck",
+  "author": "divriots",
   "files": [
     "dist"
   ],
@@ -20,18 +20,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gluck/esbuild-plugin-raw-loader.git"
+    "url": "git+https://github.com/divriots/esbuild-plugin-rawbundle.git"
   },
   "bugs": {
-    "url": "https://github.com/gluck/esbuild-plugin-raw-loader/issues"
+    "url": "https://github.com/divriots/esbuild-plugin-rawbundle/issues"
   },
-  "homepage": "https://github.com/gluck/esbuild-plugin-raw-loader",
+  "homepage": "https://github.com/divriots/esbuild-plugin-rawbundle",
   "devDependencies": {
     "@types/node": "^16.11.9",
-    "esbuild": "^0.13.15",
+    "esbuild": "^0.14.10",
     "tsup": "^5.7.1",
     "typescript": "^4.4.4"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "peerDependencies": {}
 }

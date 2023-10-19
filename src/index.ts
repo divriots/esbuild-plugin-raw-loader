@@ -1,33 +1,39 @@
-import fs from "fs";
-import path from "path";
-import type { Plugin } from 'esbuild';
+import type { Plugin, BuildOptions } from 'esbuild';
 
 export interface RawLoaderPluginOptions {
+  esbuildOptions: Partial<BuildOptions>
 }
 
-module.exports = function rawLoaderPlugin({}: RawLoaderPluginOptions = {}): Plugin {
+module.exports = function rawLoaderPlugin({ esbuildOptions }: RawLoaderPluginOptions): Plugin {
   return {
-    name: "esbuild:plugin:raw-loader",
+    name: "esbuild:plugin:rawbundle",
     setup(build) {
       build.onResolve(
-        { filter: /^!!raw-loader!/ },
-        ({ path: id, importer }) => ({
-          path: id.slice('!!raw-loader!'.length).startsWith('.')
-            ? path.resolve(
-                path.dirname(importer),
-                id.slice('!!raw-loader!'.length)
-              )
-            : require.resolve(id.slice('!!raw-loader!'.length)),
-          namespace: 'raw',
-        })
+        { filter: /.*\?rawbundle$/ },
+        async ({ path, resolveDir }) => {
+          return {
+            path: path.slice(0, -'?rawbundle'.length),
+            namespace: 'rawbundle',
+            pluginData: {
+              resolveDir
+            }
+          }
+        }
       );
-      build.onLoad({ filter: /./, namespace: 'raw' }, async ({ path }) => {
+      build.onLoad({ filter: /./, namespace: 'rawbundle' }, async ({ path, pluginData: { resolveDir } }) => {
+        const result = await build.esbuild.build({
+          absWorkingDir: resolveDir,
+          entryPoints: [path],
+          bundle: true,
+          write: false,
+          sourcemap: false,
+          ...esbuildOptions
+        });
         return {
           contents: `export default ${JSON.stringify(
-            await fs.promises.readFile(path, 'utf-8')
+            result.outputFiles![0].text
           )}`,
           loader: 'js',
-          watchFiles: [path]
         };
       });
     },
