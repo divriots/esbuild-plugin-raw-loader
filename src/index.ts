@@ -9,19 +9,31 @@ module.exports = function rawLoaderPlugin({}: RawLoaderPluginOptions = {}): Plug
   return {
     name: "esbuild:plugin:raw-loader",
     setup(build) {
+      const namespace = 'raw';
       build.onResolve(
         { filter: /^!!raw-loader!/ },
-        ({ path: id, importer }) => ({
-          path: id.slice('!!raw-loader!'.length).startsWith('.')
-            ? path.resolve(
-                path.dirname(importer),
-                id.slice('!!raw-loader!'.length)
-              )
-            : require.resolve(id.slice('!!raw-loader!'.length)),
-          namespace: 'raw',
-        })
+        async ({ path: id, resolveDir }) => {
+          const target = id.slice('!!raw-loader!'.length)
+          const resolved = await build.resolve(target, { resolveDir })
+          if (resolved.path && !resolved.external) {
+            return {
+              ...resolved,
+              namespace,
+            }
+          }
+          if (id.startsWith('.')) {
+            return {
+              path: path.resolve(resolveDir, id),
+              namespace,
+            }
+          }
+          return {
+            path: require.resolve(id), // TODO should be relative to resolveDir
+            namespace,
+          }
+        }
       );
-      build.onLoad({ filter: /./, namespace: 'raw' }, async ({ path }) => {
+      build.onLoad({ filter: /./, namespace }, async ({ path }) => {
         return {
           contents: `export default ${JSON.stringify(
             await fs.promises.readFile(path, 'utf-8')
