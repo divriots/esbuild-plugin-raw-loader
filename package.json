@@ -20,12 +20,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/divriots/esbuild-plugin-rawbundle.git"
+    "url": "git+https://github.com/divriots/esbuild-plugin-raw-loader.git"
   },
   "bugs": {
-    "url": "https://github.com/divriots/esbuild-plugin-rawbundle/issues"
+    "url": "https://github.com/divriots/esbuild-plugin-raw-loader/issues"
   },
-  "homepage": "https://github.com/divriots/esbuild-plugin-rawbundle",
+  "homepage": "https://github.com/divriots/esbuild-plugin-raw-loader/tree/master",
   "devDependencies": {
     "@types/node": "^16.11.9",
     "esbuild": "^0.14.10",
