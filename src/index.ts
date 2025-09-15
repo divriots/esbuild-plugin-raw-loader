@@ -1,4 +1,5 @@
 import type { Plugin, BuildOptions } from 'esbuild';
+import { resolve } from 'path';
 
 export interface RawLoaderPluginOptions {
   esbuildOptions: Partial<BuildOptions>
@@ -27,13 +28,16 @@ module.exports = function rawLoaderPlugin({ esbuildOptions }: RawLoaderPluginOpt
           bundle: true,
           write: false,
           sourcemap: false,
+          metafile: true,
           ...esbuildOptions
         });
+        const watchFiles = Object.keys(result.metafile!.inputs).map(p => resolve(resolveDir, p));
         return {
           contents: `export default ${JSON.stringify(
             result.outputFiles![0].text
           )}`,
           loader: 'js',
+          watchFiles
         };
       });
     },
