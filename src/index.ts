@@ -11,9 +11,11 @@ module.exports = function rawLoaderPlugin({ esbuildOptions }: RawLoaderPluginOpt
     setup(build) {
       build.onResolve(
         { filter: /.*\?rawbundle$/ },
-        async ({ path, resolveDir }) => {
+        async ({ path, resolveDir, importer }) => {
+          const importPath = path.slice(0, -'?rawbundle'.length);
+          const resolved = await build.resolve(importPath, { resolveDir, importer, kind: 'import-statement' });
           return {
-            path: resolve(resolveDir, path.slice(0, -'?rawbundle'.length)),
+            path: resolved.path,
             namespace: 'rawbundle',
             pluginData: {
               resolveDir
