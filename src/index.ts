@@ -13,7 +13,7 @@ module.exports = function rawLoaderPlugin({ esbuildOptions }: RawLoaderPluginOpt
         { filter: /.*\?rawbundle$/ },
         async ({ path, resolveDir }) => {
           return {
-            path: path.slice(0, -'?rawbundle'.length),
+            path: resolve(resolveDir, path.slice(0, -'?rawbundle'.length)),
             namespace: 'rawbundle',
             pluginData: {
               resolveDir
